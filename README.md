@@ -5,6 +5,8 @@ This repository contains data files and R script for cleaning and pre-processing
 3. 'StreamCat_Text Files' (folder) - subset of spatial attributes from the US EPA StreamCat dataset, used in random forest modelling (https://www.epa.gov/national-aquatic-resource-surveys/streamcat-dataset)
 4.  'NCSS_alldepths_MajorElements_since2000_region_NLCD06_NHDV2100_NWI_ssurgo_catchment.txt' - soil P data from the NCSS dataset, joined to primary attribute keys from the NLCD, NHDv2100, NWI, gSSURGO and StreamCat datasets
 5.   'USGS_alldepths_soil_since2000_region_NWI_NHDv2100_NLCD06_ssurgo_catchment.txt'- soil P data from the USGS NGS dataset, joined to primary attribute keys from the NLCD, NHDv2100, NWI, gSSURGO and StreamCat datasets
+6. 'UMRB_grid_NWI_NLCD16_NHDv2100b_ssurgo_NLCD06_CatchmentID_redo.csv' - Grid of points, space 100m apart, used for predicting soil P across the UMRB.
+7. 'soilP_ras' - Raster file containing predicted soil P (in mg/kg) across the UMRB
 
 Note: The above files (numbers 1-5) are inputs needed to sucessfully run the R script, process the data and generate the soil P predictive model. 
 
