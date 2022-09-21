@@ -11,6 +11,7 @@ P.Predictors<-read.delim("./P_Predictors_imputed.csv",sep=",", header=TRUE)
 head(P.Predictors)
 nrow(P.Predictors)
 
+
 #independent test data:
 test.prep<-read.delim("./P_TEST_imputed.csv", sep=",", header=TRUE)
 head(test.prep)
@@ -73,7 +74,8 @@ P.Predictors <- transform(
   rootznemc=as.numeric(rootznemc),
   rootznaws=as.numeric(rootznaws), 
   droughty=as.numeric(droughty),
-  Depth_cm=as.numeric(Depth_cm)
+  Depth_cm=as.numeric(Depth_cm),
+  PctNonCarbResidCat=as.numeric(PctNonCarbResidCat)
 )
 
 
@@ -87,11 +89,13 @@ P.Predictors <- transform(
   drainagecl=as.factor(drainagecl),
   taxpartsize=as.factor(taxpartsize),
   taxceactcl=as.factor(taxceactcl),
-  #taxreaction=as.factor(taxreaction),
+  taxreaction=as.factor(taxreaction),
   texcl=as.factor(texcl),
   pmkind=as.factor(pmkind)
 )
 
+#check class type of all columns
+lapply(P.Predictors, class)
 
 test.prep <- transform(
   test.prep,
@@ -143,7 +147,8 @@ test.prep <- transform(
   rootznemc=as.numeric(rootznemc),
   rootznaws=as.numeric(rootznaws), 
   droughty=as.numeric(droughty),
-  Depth_cm=as.numeric(Depth_cm)
+  Depth_cm=as.numeric(Depth_cm),
+  PctNonCarbResidCat=as.numeric(PctNonCarbResidCat)
 )
 
 
@@ -157,7 +162,7 @@ test.prep <- transform(
   drainagecl=as.factor(drainagecl),
   taxpartsize=as.factor(taxpartsize),
   taxceactcl=as.factor(taxceactcl),
-  #taxreaction=as.factor(taxreaction),
+  taxreaction=as.factor(taxreaction),
   texcl=as.factor(texcl),
   pmkind=as.factor(pmkind)
 )
@@ -167,11 +172,10 @@ test.prep <- transform(
 
 #EDIT 7.13.22
 #Exclude attributes with factor levels that do not match factor levels in UMRB grid dataset:
-Exclude.grid<-c('taxpartsize', 'texcl', 'pmkind')
+Exclude.grid<-c('taxpartsize', 'texcl', 'pmkind', 'taxreaction')
 P.Predictors2<-P.Predictors[,!(names(P.Predictors) %in% Exclude.grid)]
 test.prep2<-test.prep[,!(names(test.prep) %in% Exclude.grid)]
 
 #Exclude samples with soil P >1000 to see how model performance is affected
 P.Predictors2<-P.Predictors2[P.Predictors2$P_mgkg<1000,]
-test.prep2<-test.prep2[test.prep2$P_mgkg<1000,
-]
+test.prep2<-test.prep2[test.prep2$P_mgkg<1000,]

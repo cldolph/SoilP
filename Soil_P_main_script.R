@@ -4,7 +4,7 @@
 
 #All input files and scripts on the GitHub repository: https://github.com/cldolph/SoilP.git
 
-#updated 9/14/22
+#updated 9/20/22
 
 # Clear memory
 rm(list=ls())
@@ -294,8 +294,6 @@ best_rmse1
 
 
 #Option: Tune one more time, narrowing in on good tuning
-#Note: for now, not selecting this option (as haven't seen increase
-#in performance)
 
 rf_grid <- grid_regular(
   mtry(range = c(50,95)),
@@ -333,7 +331,7 @@ regular_res %>%
   geom_point() +
   labs(y = "R2")
 
-best_rmse2 <- select_best(regular_res, "rsq")
+best_rmse2 <- select_best(regular_res, "rmse")
 best_rmse2
 
 
@@ -466,8 +464,9 @@ RMSE
 
 ##RUN CONDITIONAL PERMUTATION IMPORTANCE:
 #read in saved model if needed;
-
-#rfP_model<-readRDS("./FINALMODEL_randomforest_less1000.rds")
+setwd(output_dir)
+rfP_model<-readRDS("./FINALMODEL_randomforest_less1000.rds")
+rfP_model
 
 #Note: permimp does require training data to run!
 

@@ -5,7 +5,7 @@
 #Read in ArcGIS dbf attribute tables 
 
 #Download and unzip state gSSURGO files from https://nrcs.app.box.com/v/soils/folder/148414960239
-#to your project directory
+#to the project directory 'gSSURGO'
 #states needed: AR, IA, IL, IN, KS, MN, MO, ND, NE, OH, SD, WI
 
 #load relevant tables from state geodatabases:
@@ -304,6 +304,7 @@ length(Parent4$cokey)
 length(unique(Parent4$cokey))
 #Now there are no duplicates for cokey
 
+setwd(input_dir)
 #'Valu1' Table:
 #(already merged in ArcGIS)
 valu1<-read.delim('./gSSURGO/Ssurgo_merged_Valu1_table.txt', sep=",", header=TRUE)
@@ -311,6 +312,7 @@ head(valu1)
 valu1$MUTKEY<-valu1$mukey
 head(valu1)
 
+setwd(output_dir)
 
 #COMPLETE LIST OF SSURGO TABLES NEEDED:
 names(Component) #component unit (cokey)
