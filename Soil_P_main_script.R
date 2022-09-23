@@ -499,10 +499,10 @@ VarImp2 <- cbind(rownames(VarImp), data.frame(VarImp, row.names=NULL))
 colnames(VarImp2)[1]<-"Var"
 head(VarImp2)
 View(VarImp)
-VarImp2[1:25,]
+VarImp2[1:75,]
 
 Importance.plot<-
-  VarImp2[1:17,] %>% 
+  VarImp2[1:65,] %>% 
   #slice(25, log10(Imp)) %>% 
   ggplot() + aes(x=reorder(Var, Imp), y=log10(Imp)) + geom_point()+coord_flip()+
   ylab("Importance, log scale")+
@@ -513,7 +513,7 @@ Importance.plot<-
 Importance.plot
 
 #write fig to file
-tiff("./Covariate_importance_plot_less1000.tiff", units="in", width=10, height=8, res=300)
+tiff("./Covariate_importance_plot_less1000_NEW.tiff", units="in", width=12, height=10, res=300)
 Importance.plot
 dev.off()
 

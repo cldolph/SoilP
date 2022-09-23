@@ -57,7 +57,8 @@ P_clean <- transform(
   rootznemc=as.numeric(rootznemc),
   rootznaws=as.numeric(rootznaws), 
   droughty=as.numeric(droughty),
-  Depth_cm=as.numeric(Depth_cm)
+  Depth_cm=as.numeric(Depth_cm),
+  PctNonCarbResidCat=as.numeric(PctNonCarbResidCat)
 )
 
 #transform categorical variables
