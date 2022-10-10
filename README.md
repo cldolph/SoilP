@@ -1,5 +1,7 @@
 # SoilP
-This repository contains data files and R script for cleaning and pre-processing soil phopshorus (P) data downloaded from the USGS National Geochemical Survey (https://mrdata.usgs.gov/geochem/) dataset, and the National Soil Characterization dataset (https://ncsslabdatamart.sc.egov.usda.gov/). This soil P data is used together with geospatial attributes compiled from multiple datasets (NLCD, NWI, NHDv2Plus, gSSURGO, StreamCat) for predicting soil P across the Upper Mississippi River Basin (UMRB), using a random forest model. Datasets and scripts include:
+This repository contains data files and R script for cleaning and pre-processing soil phopshorus (P) data downloaded from the USGS National Geochemical Survey (https://mrdata.usgs.gov/geochem/) dataset, and the National Soil Characterization dataset (https://ncsslabdatamart.sc.egov.usda.gov/). This soil P data is used together with geospatial attributes compiled from multiple datasets (NLCD, NWI, NHDv2Plus, gSSURGO, StreamCat) for predicting soil P across the Upper Mississippi River Basin (UMRB), using a random forest model. Note that the implementation of all of these scripts is likely to take many hours (7 hours or more) on a personal machine. If possible, we recommend implementing these scripts (especially model tuning) on a high performance computing cluster for increased processing speed.  
+
+Datasets and scripts include:
 1. 'Soil_P_main_script.R' - Complete script for all data cleaning, processing and modelling. This script references several 'modules' (located in the 'Soil_P_input' folder), where individual data processing steps take place. 
 
 All other input files are in the subfolder 'Soil_P_input':
