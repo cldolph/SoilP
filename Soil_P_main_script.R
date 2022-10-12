@@ -109,6 +109,8 @@ P.rip<-
            geom_boxplot()
 P.rip
 
+
+
 #number & mean of surface and subsurface samples
 P_clean %>%
   group_by(grp = cut(Depth_cm, c(-Inf, 30, Inf))) %>%
@@ -135,6 +137,7 @@ setwd(input_dir)
 
 #prep datasets for modelling
 source('module7_prep_model_data.R')
+
 
 #Input datasets are:
 #1. Training Data: 'P.Predictors2'
@@ -221,6 +224,8 @@ write.table(as.data.frame(P_test_preprocessed), "./P_test_preprocessed.csv", sep
 #install.packages("doParallel", repos="https://cloud.r-project.org")
 #install.packages("foreach", repos="https://cloud.r-project.org")
 
+setwd(output_dir)
+
 library(doParallel)
 library(foreach)
 
@@ -269,8 +274,8 @@ end_time - start_time
 saveRDS(tune_res, "./rf_tune_results_INITIAL_range.rds")
 
 #load in tune results (as needed, if skipping ahead to this step)
-#tune_res<-readRDS("./rf_tune_results_INITIAL_ranger.rds")
-#tune_res
+tune_res<-readRDS("./rf_tune_results_INITIAL_ranger.rds")
+tune_res
 
 #Check out initial tuning results
 tune_res %>%
@@ -294,7 +299,8 @@ best_rmse1
 
 
 #Option: Tune one more time, narrowing in on good tuning
-
+#Tho note: in this case, the fine tuned models did not perform
+#better than the original model selected above 
 rf_grid <- grid_regular(
   mtry(range = c(50,95)),
  min_n(range = c(3, 17)),
@@ -317,6 +323,9 @@ regular_res
 #save the tune results
 saveRDS(regular_res, "./rf_fine_tuned_results_ranger.rds")
 
+#load in tune results (as needed, if skipping ahead to this step)
+regular_res<-readRDS("./rf_fine_tuned_results_ranger.rds")
+regular_res
 
 #Check end time for fine tuning: 
 end_time <- Sys.time()
@@ -330,6 +339,32 @@ regular_res %>%
   geom_line(alpha = 0.5, size = 1.5) +
   geom_point() +
   labs(y = "R2")
+
+regular_res %>% 
+  collect_metrics() %>%
+  filter(.metric == "rsq") %>%
+  select(mean, min_n, mtry) %>%
+  pivot_longer(min_n:mtry,
+               values_to = "value",
+               names_to = "parameter") %>%
+  arrange(mean) %>%
+  print(n=40) 
+
+
+tune_res %>%
+  collect_metrics() %>%
+  filter(.metric == "rsq") %>%
+  select(mean, min_n, mtry) %>%
+  pivot_longer(min_n:mtry,
+               values_to = "value",
+               names_to = "parameter") %>%
+  arrange(mean) %>%
+  print(n=40) %>%
+  ggplot(aes(value, mean, color = parameter)) +
+  geom_point(show.legend = FALSE) +
+  facet_wrap(~parameter, scales = "free_x") +
+  labs(x = NULL, y = "rsq")
+
 
 best_rmse2 <- select_best(regular_res, "rmse")
 best_rmse2
@@ -434,7 +469,7 @@ start_time <- Sys.time()
 start_time
 
 set.seed(542863)
-rfP_model <- randomForest(P_mgkg ~ ., data = as.data.frame(P_train_preprocessed), mtry = 50, ntree=1000, replace = FALSE, 
+rfP_model <- randomForest(P_mgkg ~ ., data = as.data.frame(P_train_preprocessed), mtry = 91, ntree=1000, replace = FALSE, 
                           nodesize = 3
                           , keep.forest = TRUE, keep.inbag = TRUE)
 end_time <- Sys.time()
@@ -501,19 +536,26 @@ head(VarImp2)
 View(VarImp)
 VarImp2[1:75,]
 
+#rename 30m grid scale NLCD attribute so it doesn't get confused with catchment-scale attributes
+VarImp3<-
+  VarImp2 %>% 
+  mutate(Var=ifelse(Var=="NLCD06Cat", "NLCD06", Var))
+head(VarImp3)
+
 Importance.plot<-
-  VarImp2[1:65,] %>% 
+  VarImp3[1:65,] %>% 
   #slice(25, log10(Imp)) %>% 
   ggplot() + aes(x=reorder(Var, Imp), y=log10(Imp)) + geom_point()+coord_flip()+
   ylab("Importance, log scale")+
   xlab("Covariate")+
   theme_bw()+
   theme(panel.grid=element_blank())+
-  theme(text = element_text(size = 14))
+  theme(axis.text=element_text(size=16),
+          axis.title=element_text(size=18,face="bold"))
 Importance.plot
 
 #write fig to file
-tiff("./Covariate_importance_plot_less1000_NEW.tiff", units="in", width=12, height=10, res=300)
+jpeg("./Covariate_importance_plot_less1000_NEW.jpeg", units="in", width=17, height=15, res=300)
 Importance.plot
 dev.off()
 
