@@ -469,7 +469,7 @@ start_time <- Sys.time()
 start_time
 
 set.seed(542863)
-rfP_model <- randomForest(P_mgkg ~ ., data = as.data.frame(P_train_preprocessed), mtry = 91, ntree=1000, replace = FALSE, 
+rfP_model <- randomForest(P_mgkg ~ ., data = as.data.frame(P_train_preprocessed), mtry = 50, ntree=1000, replace = FALSE, 
                           nodesize = 3
                           , keep.forest = TRUE, keep.inbag = TRUE)
 end_time <- Sys.time()
@@ -479,6 +479,10 @@ summary(rfP_model)
 
 #SAVE FINAL RANDOM FOREST MODEL!
 saveRDS(rfP_model, "./FINALMODEL_randomForest_less1000.rds")
+
+#LOAD IN MODEL (if needed)
+rfP_model<-readRDS("./FINALMODEL_randomForest_less1000.rds")
+rfP_model
 
 #Check performance of the model (should match performance of the random_Forest() model tuned above, using tidymodels?)
 rf.pred<-predict(rfP_model, newdata=P_test_preprocessed)
