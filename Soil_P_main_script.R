@@ -613,9 +613,9 @@ library(randomForest)
 
 #Methods for working with large data files:
 #note that UMRB grid file is ~ 9 GB
-#Strategy is to chunk UMRB Grid into workable subunits, 
+#Strategy is to divide UMRB Grid into workable subunits or chunks, 
 #and run code (and model), for each subunit;
-#alternatively -experimenting with fread below
+#below shows the code for one chunk 
 
 #note: data.table is much faster for reading in data, but messes with some of the tidymodels commands
 
