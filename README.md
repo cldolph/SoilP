@@ -17,4 +17,4 @@ All other input files are in the subfolder 'Soil_P_input':
 **Note: The above files (numbers 1-6) are inputs needed to sucessfully run the R script, process the data and generate the soil P predictive model. 
 
 
-Methods for this project are described in detail in Dolph et al. (in prep). 
+Methods for this project are described in detail in Dolph et al. (in press). Predicting high resolution total phosphorus concentrations for soils of the Upper Mississippi River Basin using machine learning. Biogeochemistry. Preprint: : https://doi.org/10.21203/rs.3.rs-2285751/v1
