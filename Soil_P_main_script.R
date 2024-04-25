@@ -801,7 +801,7 @@ grid.att$FCODE[is.na(grid.att$FCODE)] <- 0
 #assign pipelines and aqueducts 'Nonstream'; since aqueducts and pipelines are 
 #unlikely to interact with the surrounding environment the way streams are
 #if they are located within dams that should show up in NLCD or NWI
-#hm note: predicting soil P for grid points in water bodies doesnt make sense
+#note: predicting soil P for grid points in water bodies doesn't make sense
 #so cut those predictions out of final model; restrict to land areas! (ie, not open water)
 #may want to go back after the fact to address open water areas; predictions likely not useful
 #assign 46000 t0 46006 (assume perennial stream)
@@ -1014,7 +1014,7 @@ head(grid.roughfix)
 
 
 
-#Make an empty P_mgkg column?
+#Make an empty P_mgkg column
 grid.roughfix$P_mgkg<-as.numeric(rep("0", nrow(grid.roughfix)))
 head(grid.roughfix)
 
